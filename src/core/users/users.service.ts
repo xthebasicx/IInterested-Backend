@@ -27,18 +27,21 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return await this.userModel.find().populate('notes').exec();
   }
 
   async findOne(id: string) {
-    return this.userModel.findById(id).exec();
+    const user = await this.userModel.findById(id).populate('notes').exec();
+    if(!user)
+      throw new HttpException('User not found',HttpStatus.BAD_REQUEST)
+    return  user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    return this.userModel.findByIdAndUpdate(id, updateUserDto).exec();
+    return await this.userModel.findByIdAndUpdate(id, updateUserDto).exec();
   }
 
   async delete(id: string): Promise<User> {
-    return this.userModel.findByIdAndDelete(id).exec();
+    return await this.userModel.findByIdAndDelete(id).exec();
   }
 }
