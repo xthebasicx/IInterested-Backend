@@ -10,6 +10,7 @@ async function bootstrap() {
     .setTitle('IInterested API')
     .setDescription('note everything you are interested in')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);

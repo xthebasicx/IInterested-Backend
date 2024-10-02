@@ -13,28 +13,19 @@ export class UsersService {
     return new this.userModel(createUserDto).save();
   }
 
-  async login(createUserDto: CreateUserDto): Promise<User> {
-    const user = await this.userModel
-      .findOne({
-        user_name: createUserDto.user_name,
-        user_password: createUserDto.user_password,
-      })
-      .exec();
-    if (!user) {
-      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
-    }
-    return user;
+  async findByName(name: string): Promise<UserDocument> {
+    return await this.userModel.findOne({ name: name }).exec();
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userModel.find().populate('notes').exec();
+    return await this.userModel.find().exec();
   }
 
   async findOne(id: string) {
-    const user = await this.userModel.findById(id).populate('notes').exec();
-    if(!user)
-      throw new HttpException('User not found',HttpStatus.BAD_REQUEST)
-    return  user;
+    const user = await this.userModel.findById(id).exec();
+    if (!user)
+      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {

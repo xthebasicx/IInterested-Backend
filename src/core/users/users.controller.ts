@@ -23,11 +23,6 @@ export class UsersController {
     return await this.usersService.register(createUserDto);
   }
 
-  @Post('/login')
-  async login(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return await this.usersService.login(createUserDto);
-  }
-
   @Get()
   async findAll(): Promise<User[]> {
     return await this.usersService.findAll();
