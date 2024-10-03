@@ -1,4 +1,4 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Request, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
@@ -19,8 +19,13 @@ export class AuthController {
     },
   })
   @Post('/login')
-  async login(@Request() req) {
+  async login(@Request() req, @Res({ passthrough: true }) res) {
     const accessToken = await this.authService.login(req.user);
-    return accessToken;
+    res.cookie('access_token', accessToken.accessToken, {
+      httpOnly: true,
+    });
+    return {
+      massage: 'Login successful',
+    };
   }
 }
