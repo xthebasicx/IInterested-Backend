@@ -1,7 +1,7 @@
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -20,6 +20,7 @@ export class AuthController {
   })
   @Post('/login')
   async login(@Request() req) {
-    return req.user;
+    const accessToken = await this.authService.login(req.user);
+    return accessToken;
   }
 }
