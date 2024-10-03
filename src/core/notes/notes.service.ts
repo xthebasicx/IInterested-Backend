@@ -10,11 +10,11 @@ import { UsersService } from '../users/users.service';
 export class NotesService {
   constructor(
     @InjectModel(Note.name) private NoteModel: Model<NoteDocument>,
-    private usersService:UsersService,
+    private usersService: UsersService,
   ) {}
 
   async create(createNoteDto: CreateNoteDto, userId: string): Promise<Note> {
-    const user = await this.usersService.findOne(userId)
+    const user = await this.usersService.findOne(userId);
     const newNote = await new this.NoteModel({
       ...createNoteDto,
       user: user.id,
@@ -27,17 +27,21 @@ export class NotesService {
   }
 
   async findAll(): Promise<Note[]> {
-    return await this.NoteModel.find().populate({
-      path: 'user',
-      select: '_id user_name',
-    }).exec();
+    return await this.NoteModel.find()
+      .populate({
+        path: 'user',
+        select: '_id name',
+      })
+      .exec();
   }
 
   async findOne(id: string): Promise<Note> {
-    return await this.NoteModel.findById(id).populate({
-      path: 'user',
-      select: '_id user_name',
-    }).exec();
+    return await this.NoteModel.findById(id)
+      .populate({
+        path: 'user',
+        select: '_id name',
+      })
+      .exec();
   }
 
   async update(id: string, updateNoteDto: UpdateNoteDto): Promise<Note> {

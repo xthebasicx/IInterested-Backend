@@ -7,12 +7,12 @@ export type NoteDocument = HydratedDocument<Note>;
 @Schema()
 export class Note {
   @Prop()
-  note_name: string;
+  name: string;
 
   @Prop()
-  note_details: string;
+  details: string;
 
-  @Prop({type:Types.ObjectId,ref:'User',required:true})
-  user:Types.ObjectId
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  user: Types.ObjectId;
 }
 export const NoteSchema = SchemaFactory.createForClass(Note);
