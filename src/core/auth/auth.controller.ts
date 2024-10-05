@@ -28,4 +28,12 @@ export class AuthController {
       massage: 'Login successful',
     };
   }
+
+  @Post('/logout')
+  async logout(@Res({ passthrough: true }) res) {
+    res.clearCookie('access_token');
+    return {
+      message: 'Logout successful',
+    };
+  }
 }

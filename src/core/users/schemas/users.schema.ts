@@ -11,9 +11,6 @@ export class User {
 
   @Prop({ required: true })
   password: string;
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Note' }] })
-  notes: Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
