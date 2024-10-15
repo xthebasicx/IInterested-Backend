@@ -6,23 +6,28 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { Note } from './schemas/notes.schema';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @ApiTags('notes')
 @Controller('notes')
 export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
-  @Post(':id')
+  @UseGuards(JwtAuthGuard)
+  @Post()
   async create(
-    @Param('id') userId: string,
+    @Request() req,
     @Body() createNoteDto: CreateNoteDto,
   ): Promise<Note> {
+    const userId = req.user.userId;
     return await this.notesService.create(createNoteDto, userId);
   }
 

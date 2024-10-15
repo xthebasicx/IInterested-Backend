@@ -21,3 +21,11 @@ UserSchema.pre('save', async function (next) {
   }
   next();
 });
+
+UserSchema.pre('findOneAndUpdate', async function (next) {
+  const update = this.getUpdate() as Partial<User>;
+  if (update.password) {
+    update.password = await bcrypt.hash(update.password, 10);
+  }
+  next();
+});
