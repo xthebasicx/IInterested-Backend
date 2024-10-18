@@ -6,4 +6,7 @@ export class CreateNoteDto {
 
   @ApiProperty()
   details: string;
+
+  @ApiProperty()
+  image: string;
 }

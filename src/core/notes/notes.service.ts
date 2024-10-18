@@ -32,6 +32,10 @@ export class NotesService {
     return await this.noteModel.find().populate('user').exec();
   }
 
+  async findAllNoteWithUserId(id: string): Promise<Note[]> {
+    return await this.noteModel.find({ user: id }).populate('user').exec();
+  }
+
   async findOne(id: string): Promise<Note> {
     const note = await this.noteModel.findById(id).populate('user').exec();
     this.handleNotFound(note);
@@ -54,6 +58,17 @@ export class NotesService {
 
   async deleteByUserId(userId: string): Promise<void> {
     await this.noteModel.deleteMany({ user: userId }).exec();
+  }
+
+  async handleUploadedFile(file: Express.Multer.File) {
+    if (!file) {
+      throw new HttpException('No file uploaded', HttpStatus.BAD_REQUEST);
+    }
+    return {
+      message: 'File uploaded successfully',
+      filename: file.filename,
+      originalName: file.originalname,
+    };
   }
 
   private handleNotFound(note: any): void {

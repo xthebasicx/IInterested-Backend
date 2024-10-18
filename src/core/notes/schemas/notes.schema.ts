@@ -11,6 +11,9 @@ export class Note {
   @Prop()
   details: string;
 
+  @Prop()
+  image: string;
+
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   user: Types.ObjectId;
 }

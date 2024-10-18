@@ -24,14 +24,14 @@ export class AuthController {
     const accessToken = await this.authService.login(req.user);
     res.cookie('access_token', accessToken.accessToken, {
       httpOnly: true,
-      secure:true,
-      sameSite: 'none'
+      secure: true,
+      sameSite: 'none',
     });
     return {
       massage: 'Login successful',
     };
   }
-  
+
   @UseGuards(JwtAuthGuard)
   @Post('/logout')
   async logout(@Res({ passthrough: true }) res) {
